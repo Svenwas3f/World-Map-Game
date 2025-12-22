@@ -10,9 +10,11 @@ Ein interaktives Lernspiel zum Lernen der Ländernamen und deren Positionen auf 
 - 🎯 Automatische Kreismarkierungen für kleine Länder und Inselstaaten
 - 🎨 Farbige Hervorhebung: Orange für aktuelle Auswahl, Grün mit dunklerem Rand für geratene Länder
 - ⌨️ Tastatur-Navigation mit Enter-Taste
+- 💡 Lösungs-Button zum Anzeigen des aktuellen Landes
 - 📝 Groß-/Kleinschreibung wird ignoriert bei der Eingabe
 - 📋 Alphabetische Länderliste zum Nachschlagen
 - 🚫 Pan-Beschränkungen: Mindestens 50% der Karte bleibt sichtbar
+- 📱 Responsive Design für Mobile, Tablet und Desktop
 
 ## Projektstruktur
 
@@ -68,16 +70,18 @@ Das Spiel lädt automatisch alle Länder neu mit den Namen aus dem gewählten At
 3. Kleine Länder erhalten zusätzlich einen roten Kreis zur besseren Sichtbarkeit
 4. Gib den deutschen Namen des markierten Landes ein (Groß-/Kleinschreibung egal)
 5. Drücke Enter oder klicke auf "Prüfen"
-6. Bei richtiger Antwort wird das Land grün mit dunklem Rand markiert
-7. Das nächste zufällige Land wird ausgewählt
-8. Nutze die Länderliste unten zum Nachschlagen aller Namen
+6. Klicke auf 💡 "Lösung" um den Namen des aktuellen Landes anzuzeigen
+7. Bei richtiger Antwort wird das Land grün mit dunklem Rand markiert
+8. Das nächste zufällige Land wird ausgewählt
+9. Nutze die Länderliste unten zum Nachschlagen aller Namen
 
 ## Steuerung
 
-- **Mausrad**: Zoomen (1x bis 5x)
-- **Ziehen mit Maus**: Karte verschieben (mit Begrenzung)
-- **Doppelklick**: Zoom und Position zurücksetzen
+- **Mausrad / Pinch**: Zoomen (1x bis 5x)
+- **Ziehen mit Maus / Touch**: Karte verschieben (mit Begrenzung)
+- **Doppelklick / Double-Tap**: Zoom und Position zurücksetzen
 - **Enter**: Antwort bestätigen
+- **💡 Button**: Lösung anzeigen
 
 ## Besondere Features
 
@@ -126,7 +130,8 @@ Folgende Länder erhalten automatisch einen roten Markierungskreis (Radius min. 
 ## Technologien
 
 - **Vanilla JavaScript** (ES6 Modules)
-- **CSS3** (Transforms, Animations, Flexbox)
+- **CSS3** (Transforms, Animations, Flexbox, Grid, Media Queries)
+- **Responsive Design** (Mobile-First-Ansatz)
 - **SVG-Karte**: world.svg mit allen 196 UN-Mitgliedern + Kosovo + Vatikan
 - **Keine Frameworks/Libraries** - Pure Web Standards
 
@@ -150,3 +155,4 @@ Jedes Land hat:
 - Firefox 88+
 - Safari 14+
 - Benötigt ES6-Module-Support und SVG 1.1
+- Vollständig responsive: Desktop, Tablet (768px+), Mobile (< 768px)
