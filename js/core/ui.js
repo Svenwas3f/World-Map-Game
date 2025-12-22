@@ -176,9 +176,17 @@ export class UI {
             // Calculate circle properties with larger minimum radius
             const centerX = bbox.x + bbox.width / 2;
             const centerY = bbox.y + bbox.height / 2;
-            const calculatedRadius = Math.max(bbox.width, bbox.height) * 1.5;
-            const minRadius = 15; // Minimum radius to be visible at 100% zoom
-            const radius = Math.max(calculatedRadius, minRadius);
+            
+            // For island nations that span large areas, use fixed smaller radius
+            const spreadOutIslands = ['KI', 'MH', 'FM']; // Kiribati, Marshall Islands, Micronesia
+            let radius;
+            if (spreadOutIslands.includes(element.id)) {
+                radius = 25; // Fixed radius for spread-out island nations
+            } else {
+                const calculatedRadius = Math.max(bbox.width, bbox.height) * 1.5;
+                const minRadius = 15; // Minimum radius to be visible at 100% zoom
+                radius = Math.max(calculatedRadius, minRadius);
+            }
 
             // Create circle element
             this.highlightCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
