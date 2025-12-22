@@ -84,6 +84,7 @@ input {
     border: 2px solid #ccc;
     border-radius: 4px;
     min-width: 250px;
+    box-sizing: border-box;
 }
 
 input:focus {
@@ -96,10 +97,11 @@ button {
     font-size: 1em;
     background-color: #4CAF50;
     color: white;
-    border: none;
+    border: 2px solid transparent;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    box-sizing: border-box;
 }
 
 button:hover {
@@ -230,4 +232,95 @@ button:active {
     background-color: #e8f5e9;
     border-left-color: #4CAF50;
     color: #2e7d32;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+        margin-bottom: 8px;
+    }
+
+    #question {
+        font-size: 1em;
+    }
+
+    .input-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    input {
+        flex: 1 1 100%;
+        min-width: 0;
+        width: 100%;
+        margin-right: 0;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    button {
+        flex: 1 1 auto;
+        padding: 0.75em 1em;
+        min-width: 0;
+    }
+
+    .solution-button {
+        margin-left: 0;
+        flex: 0 0 auto;
+    }
+
+    #mapContainer {
+        height: 400px;
+        margin: 15px auto;
+    }
+
+    #controls {
+        font-size: 0.8em;
+    }
+
+    .country-list {
+        grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 8px;
+    }
+
+    .accordion-button {
+        font-size: 0.9em;
+        padding: 12px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.3em;
+    }
+
+    #mapContainer {
+        height: 300px;
+    }
+
+    #status {
+        font-size: 1em;
+    }
+
+    .country-list li {
+        font-size: 0.9em;
+        padding: 6px 10px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .country-list {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+
+    #mapContainer {
+        height: 500px;
+    }
 }
