@@ -19,6 +19,18 @@ export class GameState {
     }
 
     /**
+     * Update country data (e.g., when language changes)
+     * @param {Object} newCountryData - New country data object
+     */
+    updateCountryData(newCountryData) {
+        this.countryData = newCountryData;
+        this.guessed.clear();
+        this.currentTarget = null;
+        this.currentTargetElement = null;
+        this.init();
+    }
+
+    /**
      * Pick a random country from remaining countries
      * @returns {string|null} Country name or null if no countries remain
      */

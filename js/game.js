@@ -1,18 +1,18 @@
-import { countryData } from './data/countries.js';
 import { GameState } from './core/gameState.js';
 import { UI } from './core/ui.js';
 import { MapInteraction } from './utils/mapInteraction.js';
-import { runValidation } from './utils/validateCountries.js';
 
 /**
  * Game - Main game controller
  */
 class Game {
     constructor() {
-        this.gameState = new GameState(countryData);
+        this.countryData = {}; // Will be populated from SVG
+        this.gameState = null;
         this.ui = new UI();
         this.mapInteraction = null;
         this.mapLoaded = false;
+        this.language = 'de'; // Default language
     }
 
     /**
@@ -21,15 +21,12 @@ class Game {
     async init() {
         try {
             await this.loadMap();
+            this.loadCountriesFromSVG();
+            this.gameState = new GameState(this.countryData);
             this.setupMapInteraction();
             this.setupUI();
             this.setupAccordion();
             this.startGame();
-            
-            // Run validation in development
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') {
-                runValidation();
-            }
         } catch (error) {
             console.error('Failed to initialize game:', error);
             this.ui.updateStatus('Fehler beim Laden der Karte. Bitte Seite neu laden.', 'error');
@@ -44,6 +41,48 @@ class Game {
         const svg = await response.text();
         document.getElementById('mapContainer').innerHTML = svg;
         this.mapLoaded = true;
+    }
+
+    /**
+     * Load country data from SVG data attributes
+     */
+    loadCountriesFromSVG() {
+        const svg = document.getElementById('mapContainer').querySelector('svg');
+        if (!svg) {
+            console.error('SVG not found');
+            return;
+        }
+
+        // Get all elements with id attribute (2-letter codes)
+        const countryElements = svg.querySelectorAll('[id]');
+        
+        countryElements.forEach(element => {
+            const code = element.id.toUpperCase();
+            const name = element.getAttribute(`data-name-${this.language}`);
+            
+            // Only include elements with valid 2-letter ISO codes and a name in the current language
+            if (code && name && code.length === 2) {
+                this.countryData[name] = code;
+            }
+        });
+
+        console.log(`Loaded ${Object.keys(this.countryData).length} countries from SVG`);
+    }
+
+    /**
+     * Change the game language
+     * @param {string} lang - Language code (e.g., 'de', 'en', 'fr')
+     */
+    setLanguage(lang) {
+        this.language = lang;
+        this.countryData = {};
+        this.loadCountriesFromSVG();
+        
+        // Restart the game if already running
+        if (this.gameState) {
+            this.gameState.updateCountryData(this.countryData);
+            this.startGame();
+        }
     }
 
     /**
@@ -164,14 +203,14 @@ class Game {
         const content = document.getElementById('countryList');
         
         // Populate country list
-        const sortedCountries = Object.keys(countryData).sort();
+        const sortedCountries = Object.keys(this.countryData).sort();
         const ul = document.createElement('ul');
         ul.className = 'country-list';
         
         sortedCountries.forEach(country => {
             const li = document.createElement('li');
             li.textContent = country;
-            li.dataset.countryCode = countryData[country];
+            li.dataset.countryCode = this.countryData[country];
             ul.appendChild(li);
         });
         
@@ -208,4 +247,7 @@ class Game {
 document.addEventListener('DOMContentLoaded', () => {
     const game = new Game();
     game.init();
+    
+    // Make game instance accessible globally for language switching
+    window.game = game;
 });

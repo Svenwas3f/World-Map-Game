@@ -1,12 +1,10 @@
 /**
  * Country Validation Utility
- * Checks which countries from the JSON data exist in the SVG map
+ * Checks which countries from the SVG data exist in the SVG map
  */
 
-import { countryData } from '../data/countries.js';
-
 export class CountryValidator {
-    constructor() {
+    constructor(countryData) {
         this.countryData = countryData;
         this.validationResults = {
             total: 0,

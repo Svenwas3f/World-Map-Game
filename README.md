@@ -5,6 +5,7 @@ Ein interaktives Lernspiel zum Lernen der Ländernamen und deren Positionen auf 
 ## Features
 
 - 🗺️ Alle 196 Länder der Welt mit vollständiger Kartendarstellung
+- 🌍 Mehrsprachige Unterstützung über SVG data-Attribute (aktuell: Deutsch, einfach erweiterbar)
 - 🔍 Zoom- und Pan-Funktionalität mit Begrenzungen (1x-5x Zoom)
 - 🎯 Automatische Kreismarkierungen für kleine Länder und Inselstaaten
 - 🎨 Farbige Hervorhebung: Orange für aktuelle Auswahl, Grün mit dunklerem Rand für geratene Länder
@@ -18,21 +19,47 @@ Ein interaktives Lernspiel zum Lernen der Ländernamen und deren Positionen auf 
 ```
 world-map-game/
 ├── index.html              # Haupt-HTML-Datei
-├── world.svg              # SVG-Weltkarte mit allen 196 Ländern
+├── world.svg              # SVG-Weltkarte mit mehrsprachigen data-Attributen
 ├── css/
 │   └── styles.css         # Alle Styles inkl. Karten-Highlighting
 ├── js/
-│   ├── game.js            # Haupt-Game-Controller
+│   ├── game.js            # Haupt-Game-Controller mit Sprachunterstützung
 │   ├── core/
 │   │   ├── gameState.js   # Game-State-Management
 │   │   └── ui.js          # UI-Komponenten & Highlighting
-│   ├── data/
-│   │   └── countries.js   # 196 Länder: Deutsche Namen → ISO-Codes
 │   └── utils/
-│       ├── mapInteraction.js  # Zoom/Pan mit Constraints
-│       └── validateCountries.js  # Entwicklungs-Validierung
+│       └── mapInteraction.js  # Zoom/Pan mit Constraints
 └── README.md              # Diese Datei
 ```
+
+## Mehrsprachigkeit
+
+Das Spiel liest Ländernamen direkt aus den SVG data-Attributen. Jedes Land hat:
+- `id="XX"` - ISO 3166-1 Alpha-2 Code (z.B. "DE", "FR")
+- `data-name-de="Name"` - Deutscher Name
+- Weitere Sprachen können einfach hinzugefügt werden: `data-name-en`, `data-name-fr`, etc.
+
+**Sprache ändern:**
+```javascript
+// Im Browser-Console:
+window.game.setLanguage('de'); // Deutsch (Standard)
+window.game.setLanguage('en'); // Englisch (wenn data-name-en existiert)
+```
+
+**Neue Sprache hinzufügen:**
+
+Beispiel für Englisch - füge in `world.svg` das Attribut `data-name-en` hinzu:
+```xml
+<!-- Vorher -->
+<path id="DE" data-name-de="Deutschland" ... />
+
+<!-- Nachher -->
+<path id="DE" data-name-de="Deutschland" data-name-en="Germany" ... />
+```
+
+Dann im Browser: `window.game.setLanguage('en')`
+
+Das Spiel lädt automatisch alle Länder neu mit den Namen aus dem gewählten Attribut.
 
 ## Verwendung
 
@@ -91,8 +118,9 @@ Folgende Länder erhalten automatisch einen roten Markierungskreis (Radius min. 
 
 ### Game (`js/game.js`)
 - Haupt-Controller orchestriert alle Module
-- Lädt SVG-Karte und initialisiert Interaktionen
+- Lädt SVG-Karte und Länderdaten aus data-Attributen
 - Koordiniert GameState, UI und MapInteraction
+- Mehrsprachige Unterstützung durch `setLanguage()` Methode
 - Accordion für alphabetische Länderliste
 
 ## Technologien
@@ -111,9 +139,10 @@ Das Spiel enthält alle 196 international anerkannten Länder:
 - Taiwan wird als eigenständig behandelt
 
 Jedes Land hat:
-- Deutschen Namen in `countries.js`
-- ISO 3166-1 Alpha-2 Code
+- ISO 3166-1 Alpha-2 Code als `id` Attribut
+- Deutschen Namen als `data-name-de` Attribut
 - SVG-Pfad oder -Element in `world.svg`
+- Erweiterbar mit weiteren Sprachen über `data-name-XX` Attribute
 
 ## Browser-Kompatibilität
 
@@ -121,9 +150,3 @@ Jedes Land hat:
 - Firefox 88+
 - Safari 14+
 - Benötigt ES6-Module-Support und SVG 1.1
-
-## Entwicklung
-
-Validierung (nur in Development-Umgebung):
-- Automatische Prüfung ob alle Länder aus `countries.js` in der SVG-Karte vorhanden sind
-- Console-Log zeigt fehlende Länder an
