@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weltkarte Länderspiel</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Weltkarte‑Lernspiel</h1>
+    <p id="question">Welches Land ist orange markiert?</p>
+
+    <div class="input-container">
+        <input 
+            type="text" 
+            id="countryInput" 
+            placeholder="Gib den Ländernamen ein..." 
+            autocomplete="off"
+            aria-label="Länderantwort eingeben">
+        <button aria-label="Antwort prüfen">Prüfen</button>
+    </div>
+
+    <p id="status"></p>
+    <p id="controls">Mausrad zum Zoomen | Ziehen zum Verschieben | Doppelklick zum Zurücksetzen</p>
+
+    <div id="mapContainer" role="application" aria-label="Interaktive Weltkarte"></div>
+
+    <div class="accordion-container">
+        <button class="accordion-button" id="countryListToggle" aria-expanded="false">
+            Alle Ländernamen anzeigen
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content" id="countryList">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script type="module" src="js/game.js"></script>
+</body>
+</html>

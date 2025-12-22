@@ -1,0 +1,215 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Map Container */
+#mapContainer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    overflow: hidden;
+    cursor: grab;
+    height: 600px;
+    position: relative;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#mapContainer:active {
+    cursor: grabbing;
+}
+
+#mapContainer svg {
+    width: 100%;
+    height: auto;
+}
+
+/* Default country color */
+#mapContainer svg path {
+    fill: #d3d3d3;
+    stroke: #999;
+    stroke-width: 0.5;
+}
+
+/* Country States */
+#mapContainer svg path.guessed {
+    fill: #4CAF50 !important; /* Green - same as button */
+}
+
+#mapContainer svg path.target {
+    fill: #FF8C00 !important; /* Dark Orange */
+}
+
+/* Highlight circle for small countries */
+.country-highlight-circle {
+    fill: none;
+    stroke: red;
+    stroke-width: 2;
+    stroke-dasharray: 5, 5;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        stroke-opacity: 1;
+        stroke-width: 2;
+    }
+    50% {
+        stroke-opacity: 0.5;
+        stroke-width: 3;
+    }
+}
+
+/* Input and Controls */
+.input-container {
+    margin: 20px 0;
+    display: block;
+}
+
+input {
+    padding: 0.6em 1em;
+    font-size: 1em;
+    margin-right: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    min-width: 250px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+button {
+    padding: 0.6em 1.5em;
+    font-size: 1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:active {
+    background-color: #3d8b40;
+}
+
+/* Status Messages */
+#question {
+    font-size: 1.2em;
+    color: #555;
+    margin: 10px 0;
+}
+
+#status {
+    margin-top: 12px;
+    font-weight: bold;
+    font-size: 1.1em;
+    min-height: 30px;
+}
+
+#controls {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
+}
+
+/* Success Message */
+.success {
+    color: #4CAF50;
+}
+
+.error {
+    color: #f44336;
+}
+
+/* Accordion Styles */
+.accordion-container {
+    max-width: 1200px;
+    margin: 10px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.accordion-button {
+    width: 100%;
+    padding: 1em 1.5em;
+    font-size: 1.1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.accordion-button:hover {
+    background-color: #45a049;
+}
+
+.accordion-icon {
+    transition: transform 0.3s;
+    font-size: 0.9em;
+}
+
+.accordion-button[aria-expanded="true"] .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: #fff;
+}
+
+.accordion-content.active {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.country-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 20px;
+    list-style: none;
+    margin: 0;
+}
+
+.country-list li {
+    padding: 8px 12px;
+    background-color: #f9f9f9;
+    border-left: 3px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.95em;
+}
+
+.country-list li.guessed-country {
+    background-color: #e8f5e9;
+    border-left-color: #4CAF50;
+    color: #2e7d32;
+}
