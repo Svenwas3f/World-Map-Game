@@ -21,10 +21,7 @@ h1 {
     cursor: grab;
     height: 600px;
     position: relative;
-    background-color: #fff;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 #mapContainer:active {
@@ -46,16 +43,18 @@ h1 {
 /* Country States */
 #mapContainer svg path.guessed {
     fill: #4CAF50 !important; /* Green - same as button */
+    stroke: #2E7D32 !important; /* Darker green for border */
 }
 
 #mapContainer svg path.target {
     fill: #FF8C00 !important; /* Dark Orange */
+    stroke: #CC6600 !important; /* Darker orange for border */
 }
 
 /* Highlight circle for small countries */
 .country-highlight-circle {
-    fill: none;
-    stroke: red;
+    fill: none !important;
+    stroke: red !important;
     stroke-width: 2;
     stroke-dasharray: 5, 5;
     animation: pulse 2s ease-in-out infinite;

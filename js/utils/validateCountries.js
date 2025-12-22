@@ -30,7 +30,7 @@ export class CountryValidator {
         this.validationResults.total = Object.keys(this.countryData).length;
 
         Object.entries(this.countryData).forEach(([countryName, countryCode]) => {
-            const element = document.getElementById(countryCode.toLowerCase());
+            const element = document.getElementById(countryCode.toUpperCase());
             
             if (element) {
                 this.validationResults.found++;

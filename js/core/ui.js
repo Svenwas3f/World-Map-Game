@@ -76,7 +76,7 @@ export class UI {
      * @returns {HTMLElement|null} The highlighted element
      */
     highlightCountry(countryCode) {
-        const element = document.getElementById(countryCode.toLowerCase());
+        const element = document.getElementById(countryCode.toUpperCase());
         if (element) {
             element.classList.add('target');
             
@@ -139,6 +139,17 @@ export class UI {
      * @returns {boolean} True if country is small
      */
     isSmallCountry(element) {
+        // Always show circles for small island nations and European microstates
+        const smallCountries = [
+            'LI', 'MC', 'SM', 'VA', 'AD', 'MT', // European microstates
+            'KI', 'NR', 'TV', 'MH', 'PW', 'FM', // Pacific islands
+            'WS', 'TO', 'KN', 'GD', 'AG', 'BB', // More Pacific & Caribbean
+            'LC', 'VC', 'DM', 'SG', 'MV', 'KM', 'SC', 'MU', 'ST', 'CV' // Small island nations
+        ];
+        if (smallCountries.includes(element.id)) {
+            return true;
+        }
+        
         try {
             const bbox = element.getBBox();
             const area = bbox.width * bbox.height;
@@ -162,10 +173,12 @@ export class UI {
             // Remove existing circle if any
             this.removeHighlightCircle();
 
-            // Calculate circle properties
+            // Calculate circle properties with larger minimum radius
             const centerX = bbox.x + bbox.width / 2;
             const centerY = bbox.y + bbox.height / 2;
-            const radius = Math.max(bbox.width, bbox.height) * 1.5;
+            const calculatedRadius = Math.max(bbox.width, bbox.height) * 1.5;
+            const minRadius = 15; // Minimum radius to be visible at 100% zoom
+            const radius = Math.max(calculatedRadius, minRadius);
 
             // Create circle element
             this.highlightCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');

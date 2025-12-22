@@ -38,7 +38,7 @@ export class GameState {
      * @returns {boolean} True if correct, false otherwise
      */
     checkGuess(guess) {
-        return guess.trim() === this.currentTarget;
+        return guess.trim().toLowerCase() === this.currentTarget.toLowerCase();
     }
 
     /**

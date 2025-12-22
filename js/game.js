@@ -40,7 +40,7 @@ class Game {
      * Load the SVG map
      */
     async loadMap() {
-        const response = await fetch('https://raw.githubusercontent.com/flekschas/simple-world-map/refs/heads/master/world-map.svg');
+        const response = await fetch('world.svg');
         const svg = await response.text();
         document.getElementById('mapContainer').innerHTML = svg;
         this.mapLoaded = true;

@@ -13,8 +13,8 @@ export class MapInteraction {
         this.startY = 0;
         
         // Zoom limits
-        this.minZoom = 0.5;
-        this.maxZoom = 10;
+        this.minZoom = 1;
+        this.maxZoom = 5;
         this.zoomStep = 0.1;
     }
 
@@ -60,6 +60,7 @@ export class MapInteraction {
             if (!this.isDragging) return;
             this.translateX = e.clientX - this.startX;
             this.translateY = e.clientY - this.startY;
+            this.constrainPan();
             this.updateTransform();
         });
 
@@ -70,6 +71,29 @@ export class MapInteraction {
         this.container.addEventListener('mouseleave', () => {
             this.isDragging = false;
         });
+    }
+
+    /**
+     * Constrain panning to keep map visible
+     */
+    constrainPan() {
+        if (!this.svgElement) return;
+        
+        const containerRect = this.container.getBoundingClientRect();
+        const svgRect = this.svgElement.getBoundingClientRect();
+        
+        const scaledWidth = svgRect.width / this.scale;
+        const scaledHeight = svgRect.height / this.scale;
+        
+        // Allow panning but ensure at least 50% of the map remains visible
+        const minVisibleRatio = 0.5;
+        const maxTranslateX = scaledWidth * (1 - minVisibleRatio) * this.scale;
+        const minTranslateX = -scaledWidth * (1 - minVisibleRatio) * this.scale;
+        const maxTranslateY = scaledHeight * (1 - minVisibleRatio) * this.scale;
+        const minTranslateY = -scaledHeight * (1 - minVisibleRatio) * this.scale;
+        
+        this.translateX = Math.max(minTranslateX, Math.min(maxTranslateX, this.translateX));
+        this.translateY = Math.max(minTranslateY, Math.min(maxTranslateY, this.translateY));
     }
 
     /**
