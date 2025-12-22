@@ -98,6 +98,10 @@ class Game {
      */
     setupUI() {
         this.ui.setupInput(() => this.handleGuess());
+        
+        // Setup solution button
+        const solutionButton = document.getElementById('solutionButton');
+        solutionButton.addEventListener('click', () => this.showSolution());
     }
 
     /**
@@ -185,6 +189,19 @@ class Game {
             'error',
             `Noch ${remaining} Länder offen.`
         );
+    }
+
+    /**
+     * Show solution for current country
+     */
+    showSolution() {
+        if (!this.gameState.currentTarget) {
+            return;
+        }
+        
+        const countryName = this.gameState.currentTarget;
+        this.ui.updateStatus(`Lösung: ${countryName}`, 'info');
+        this.ui.focusInput();
     }
 
     /**

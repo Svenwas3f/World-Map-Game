@@ -110,6 +110,21 @@ button:active {
     background-color: #3d8b40;
 }
 
+.solution-button {
+    background-color: #FF9800;
+    margin-left: 0.5rem;
+    padding: 0.6em 1em;
+    font-size: 0.9em;
+}
+
+.solution-button:hover {
+    background-color: #F57C00;
+}
+
+.solution-button:active {
+    background-color: #E65100;
+}
+
 /* Status Messages */
 #question {
     font-size: 1.2em;
@@ -138,6 +153,10 @@ button:active {
 
 .error {
     color: #f44336;
+}
+
+.info {
+    color: #FF9800;
 }
 
 /* Accordion Styles */
