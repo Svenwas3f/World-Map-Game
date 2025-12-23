@@ -144,7 +144,7 @@ export class UI {
             'LI', 'MC', 'SM', 'VA', 'AD', 'MT', // European microstates
             'KI', 'NR', 'TV', 'MH', 'PW', 'FM', // Pacific islands
             'WS', 'TO', 'KN', 'GD', 'AG', 'BB', // More Pacific & Caribbean
-            'LC', 'VC', 'DM', 'SG', 'MV', 'KM', 'SC', 'MU', 'ST', 'CV', 'SH' // Small island nations
+            'LC', 'VC', 'DM', 'SG', 'MV', 'KM', 'SC', 'MU', 'ST', 'CV', 'SH', 'PF' // Small island nations
         ];
         if (smallCountries.includes(element.id)) {
             return true;
