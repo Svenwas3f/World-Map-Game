@@ -173,16 +173,26 @@ export class UI {
             // Remove existing circle if any
             this.removeHighlightCircle();
 
-            // Calculate circle properties with larger minimum radius
-            const centerX = bbox.x + bbox.width / 2;
-            const centerY = bbox.y + bbox.height / 2;
-            
-            // For island nations that span large areas, use fixed smaller radius
-            const spreadOutIslands = ['KI', 'MH', 'FM']; // Kiribati, Marshall Islands, Micronesia
-            let radius;
-            if (spreadOutIslands.includes(element.id)) {
-                radius = 25; // Fixed radius for spread-out island nations
+            // Manual positions for island nations with scattered territories
+            const manualPositions = {
+                'KI': { cx: 37, cy: 451, r: 20 },  // Kiribati - Gilbert Islands (main group)
+                'MH': { cx: 85, cy: 462, r: 20 },   // Marshall Islands
+                'FM': { cx: 100, cy: 476, r: 20 },  // Micronesia
+                'PF': { cx: 150, cy: 530, r: 20 }   // French Polynesia
+            };
+
+            let centerX, centerY, radius;
+
+            if (manualPositions[element.id]) {
+                // Use manual position for scattered islands
+                const pos = manualPositions[element.id];
+                centerX = pos.cx;
+                centerY = pos.cy;
+                radius = pos.r;
             } else {
+                // Calculate from bounding box for normal small countries
+                centerX = bbox.x + bbox.width / 2;
+                centerY = bbox.y + bbox.height / 2;
                 const calculatedRadius = Math.max(bbox.width, bbox.height) * 1.5;
                 const minRadius = 15; // Minimum radius to be visible at 100% zoom
                 radius = Math.max(calculatedRadius, minRadius);
