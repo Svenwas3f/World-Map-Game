@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weltkarte Länderspiel</title>
-    <meta http-equiv="refresh" content="0; url=home.html">
-    <script>
-        window.location.href = 'home.html';
-    </script>
+    <title>Weltkarte Länderspiel - Kartenauswahl</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-    <p style="text-align: center; padding: 50px;">Weiterleitung zur Startseite...</p>
+<body class="home-page">
+    <div class="container">
+        <h1>🗺️ Weltkarte Länderspiel</h1>
+        <p class="subtitle">Wähle eine Region zum Lernen</p>
+
+        <div id="mapGrid" class="map-grid">
+            <!-- Maps will be loaded here by JavaScript -->
+        </div>
+    </div>
+
+    <script type="module" src="js/home.js"></script>
 </body>
 </html>
