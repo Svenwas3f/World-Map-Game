@@ -4,9 +4,9 @@ Ein interaktives Lernspiel zum Lernen der Ländernamen und deren Positionen auf 
 
 ## Features
 
-- 🗺️ Alle 196 Länder der Welt mit vollständiger Kartendarstellung
+- 🗺️ **7 verschiedene Karten**: Weltkarte + 6 Kontinente (Europa, Afrika, Asien, Nord-/Südamerika, Ozeanien)
 - 🌍 Mehrsprachige Unterstützung über SVG data-Attribute (aktuell: Deutsch, einfach erweiterbar)
-- 🔍 Zoom- und Pan-Funktionalität mit Begrenzungen (1x-5x Zoom)
+- 🔍 Intelligente Zoom-Funktion mit vollständiger Kartenanzeige beim Start (CSS object-fit: contain)
 - 🎯 Automatische Kreismarkierungen für kleine Länder und Inselstaaten
 - 🎨 Farbige Hervorhebung: Orange für aktuelle Auswahl, Grün mit dunklerem Rand für geratene Länder
 - ⌨️ Tastatur-Navigation mit Enter-Taste
@@ -15,22 +15,34 @@ Ein interaktives Lernspiel zum Lernen der Ländernamen und deren Positionen auf 
 - 📋 Alphabetische Länderliste zum Nachschlagen
 - 🚫 Pan-Beschränkungen: Mindestens 50% der Karte bleibt sichtbar
 - 📱 Responsive Design für Mobile, Tablet und Desktop
+- 🎮 Kartenauswahl-Menü mit Vorschau und Statistiken
 
 ## Projektstruktur
 
 ```
 world-map-game/
-├── index.html              # Haupt-HTML-Datei
-├── world.svg              # SVG-Weltkarte mit mehrsprachigen data-Attributen
+├── index.html              # Startseite mit Kartenauswahl
+├── game.html              # Spiel-Seite
+├── maps/
+│   ├── maps.json          # Karten-Konfiguration
+│   ├── world.svg          # Weltkarte (alle 250 Länder/Territorien)
+│   ├── europe.svg         # Europa (53 Länder)
+│   ├── africa.svg         # Afrika (58 Länder)
+│   ├── asia.svg           # Asien (51 Länder)
+│   ├── north-america.svg  # Nordamerika inkl. Karibik (41 Länder)
+│   ├── south-america.svg  # Südamerika (15 Länder)
+│   └── oceania.svg        # Ozeanien (28 Länder)
 ├── css/
 │   └── styles.css         # Alle Styles inkl. Karten-Highlighting
 ├── js/
 │   ├── game.js            # Haupt-Game-Controller mit Sprachunterstützung
+│   ├── index.js           # Startseiten-Controller
 │   ├── core/
 │   │   ├── gameState.js   # Game-State-Management
 │   │   └── ui.js          # UI-Komponenten & Highlighting
 │   └── utils/
-│       └── mapInteraction.js  # Zoom/Pan mit Constraints
+│       └── mapInteraction.js  # Zoom/Pan mit Auto-Fit
+├── fix_viewbox.py         # Python-Script zur ViewBox-Optimierung
 └── README.md              # Diese Datei
 ```
 
@@ -66,22 +78,25 @@ Das Spiel lädt automatisch alle Länder neu mit den Namen aus dem gewählten At
 ## Verwendung
 
 1. Öffne `index.html` in einem modernen Browser oder starte einen lokalen Server
-2. Ein zufälliges Land wird orange markiert und hervorgehoben
-3. Kleine Länder erhalten zusätzlich einen roten Kreis zur besseren Sichtbarkeit
-4. Gib den deutschen Namen des markierten Landes ein (Groß-/Kleinschreibung egal)
-5. Drücke Enter oder klicke auf "Prüfen"
-6. Klicke auf 💡 "Lösung" um den Namen des aktuellen Landes anzuzeigen
-7. Bei richtiger Antwort wird das Land grün mit dunklem Rand markiert
-8. Das nächste zufällige Land wird ausgewählt
-9. Nutze die Länderliste unten zum Nachschlagen aller Namen
+2. Wähle eine Karte aus (Welt, Europa, Afrika, Asien, Nordamerika, Südamerika, Ozeanien)
+3. Ein zufälliges Land wird orange markiert und hervorgehoben
+4. Kleine Länder erhalten zusätzlich einen roten Kreis zur besseren Sichtbarkeit
+5. Gib den deutschen Namen des markierten Landes ein (Groß-/Kleinschreibung egal)
+6. Drücke Enter oder klicke auf "Prüfen"
+7. Klicke auf 💡 "Lösung" um den Namen des aktuellen Landes anzuzeigen
+8. Bei richtiger Antwort wird das Land grün mit dunklem Rand markiert
+9. Das nächste zufällige Land wird ausgewählt
+10. Nutze die Länderliste unten zum Nachschlagen aller Namen
+11. Klicke auf "← Zurück" um zur Kartenauswahl zurückzukehren
 
 ## Steuerung
 
-- **Mausrad / Pinch**: Zoomen (1x bis 5x)
+- **Mausrad / Pinch**: Zoomen (0.1x bis 5x)
 - **Ziehen mit Maus / Touch**: Karte verschieben (mit Begrenzung)
-- **Doppelklick / Double-Tap**: Zoom und Position zurücksetzen
+- **Doppelklick / Double-Tap**: Zoom und Position zurücksetzen (zeigt volle Karte)
 - **Enter**: Antwort bestätigen
 - **💡 Button**: Lösung anzeigen
+- **← Zurück**: Zur Kartenauswahl zurückkehren
 
 ## Besondere Features
 
@@ -96,8 +111,8 @@ Folgende Länder erhalten automatisch einen roten Markierungskreis (Radius min. 
 - **Grau** (#d3d3d3): Nicht geratene Länder
 - **Orange** (#FF8C00): Aktuell zu ratendes Land
 - **Orange-Dunkel** (#CC6600): Rand des aktuellen Landes
-- **Grün** (#4CAF50): Erfolgreich geratene Länder
-- **Grün-Dunkel** (#2E7D32): Rand geratener Länder
+- **Grün** (#4CAF50): Erfolgreich geratene Länder, Buttons und Zurück-Button
+- **Grün-Dunkel** (#2E7D32 / #45a049): Ränder und Hover-Effekte
 - **Rot**: Markierungskreis für kleine Länder (ohne Füllung)
 
 ## Code-Architektur
@@ -115,10 +130,12 @@ Folgende Länder erhalten automatisch einen roten Markierungskreis (Radius min. 
 - Eingabefokus-Verwaltung
 
 ### MapInteraction (`js/utils/mapInteraction.js`)
-- Zoom: 1x-5x (verhindert zu weites Heraus-/Hineinzoomen)
+- Auto-Fit: Zeigt die komplette Karte beim Start (wie CSS background-size: contain)
+- Zoom: 0.1x-5x (flexibel anpassbar)
 - Pan mit Constraints: 50% der Karte bleibt immer sichtbar
 - Event-Handling für Maus-Interaktionen
-- Doppelklick zum Zurücksetzen
+- Doppelklick zum Zurücksetzen auf volle Kartensicht
+- Transform-Origin: top-left für präzises Zoomen
 
 ### Game (`js/game.js`)
 - Haupt-Controller orchestriert alle Module
@@ -137,17 +154,35 @@ Folgende Länder erhalten automatisch einen roten Markierungskreis (Radius min. 
 
 ## Länderabdeckung
 
-Das Spiel enthält alle 196 international anerkannten Länder:
-- 193 UN-Mitgliedsstaaten
-- Kosovo (XK)
-- Vatikanstadt (VA)
-- Taiwan wird als eigenständig behandelt
+Das Spiel enthält insgesamt **446 Länder und Territorien** über alle Karten verteilt:
+
+### Weltkarte
+- 250 Länder und Territorien weltweit
+- Alle UN-Mitgliedsstaaten plus abhängige Gebiete
+
+### Kontinentalkarten
+- **Europa**: 53 Länder (inkl. Grönland, Türkei)
+- **Afrika**: 58 Länder und Territorien
+- **Asien**: 51 Länder
+- **Nordamerika**: 41 Länder (inkl. USA mit Alaska, Kanada, Mexiko, Karibik)
+- **Südamerika**: 15 Länder und Territorien
+- **Ozeanien**: 28 Länder (inkl. Australien, Neuseeland, Pazifik-Inseln)
 
 Jedes Land hat:
 - ISO 3166-1 Alpha-2 Code als `id` Attribut
 - Deutschen Namen als `data-name-de` Attribut
-- SVG-Pfad oder -Element in `world.svg`
+- Optimierte SVG-ViewBox für beste Darstellung
+- SVG-Pfad oder -Element in der jeweiligen Karten-Datei
 - Erweiterbar mit weiteren Sprachen über `data-name-XX` Attribute
+
+### ViewBox-Optimierung
+
+Alle Karten wurden mit optimierten ViewBox-Werten ausgestattet:
+- **Nordamerika**: Zeigt vollständig Alaska (inkl. Aleutian Islands) und alle Karibik-Inseln
+- **Afrika**: Alle 58 Länder von Norden (Tunesien) bis Süden (Südafrika) sichtbar
+- **Weitere Karten**: Exakte Bounding-Box für beste Raumausnutzung
+
+Das mitgelieferte Python-Script `fix_viewbox.py` kann ViewBox-Werte automatisch berechnen.
 
 ## Browser-Kompatibilität
 
