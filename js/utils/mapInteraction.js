@@ -100,14 +100,12 @@ export class MapInteraction {
         const renderedWidth = viewBox.width * this.scale;
         const renderedHeight = viewBox.height * this.scale;
 
-        // Allow panning but ensure at least some portion remains visible
-        // When zoomed in, allow more freedom to explore all parts
-        const minVisibleRatio = Math.min(0.3, 1 / this.scale); // Less constraint when zoomed in
-        
-        const maxTranslateX = renderedWidth * (1 - minVisibleRatio);
-        const minTranslateX = containerRect.width - renderedWidth * minVisibleRatio;
-        const maxTranslateY = renderedHeight * (1 - minVisibleRatio);
-        const minTranslateY = containerRect.height - renderedHeight * minVisibleRatio;
+        // Calculate maximum pan ranges
+        // Allow panning as long as some part of the map is visible
+        const maxTranslateX = containerRect.width * 0.5;
+        const minTranslateX = -(renderedWidth - containerRect.width * 0.5);
+        const maxTranslateY = containerRect.height * 0.5;
+        const minTranslateY = -(renderedHeight - containerRect.height * 0.5);
 
         this.translateX = Math.max(minTranslateX, Math.min(maxTranslateX, this.translateX));
         this.translateY = Math.max(minTranslateY, Math.min(maxTranslateY, this.translateY));
