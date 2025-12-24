@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
+   xmlns:mapsvg="http://mapsvg.com"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   mapsvg:geoViewBox="-81.0 12.5 -34.8 -55.6"
    viewBox="85.530 411.866 330.697 277.261"
    width="330.697"
    height="277.261">

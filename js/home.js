@@ -31,31 +31,39 @@ async function createMapCard(map) {
     try {
         const svgResponse = await fetch(`maps/${map.file}`);
         const svgText = await svgResponse.text();
-        
-        // Create a modified SVG with green colors
+
+        // Parse and modify SVG
         const parser = new DOMParser();
         const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
         const svgElement = svgDoc.documentElement;
-        
+
+        // Remove all namespace declarations except the main xmlns
+        const attributes = Array.from(svgElement.attributes);
+        attributes.forEach(attr => {
+            if (attr.name.startsWith('xmlns:') || attr.name === 'xmlns:mapsvg' || attr.name.includes('mapsvg:')) {
+                svgElement.removeAttribute(attr.name);
+            }
+        });
+
         // Apply green styling to all paths and circles
         svgElement.querySelectorAll('path, circle').forEach(element => {
             element.setAttribute('fill', '#4CAF50');
             element.setAttribute('stroke', '#2E7D32');
             element.setAttribute('stroke-width', '0.5');
         });
-        
-        // Convert to data URL for background image
+
+        // Serialize and clean up
         const serializer = new XMLSerializer();
         let styledSvg = serializer.serializeToString(svgElement);
         
-        // Remove duplicate xmlns attributes that might be added during serialization
-        styledSvg = styledSvg.replace(/xmlns="http:\/\/www\.w3\.org\/2000\/svg"\s+xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, 'xmlns="http://www.w3.org/2000/svg"');
+        // Remove any duplicate xmlns attributes
+        styledSvg = styledSvg.replace(/(\sxmlns="[^"]*")\s+xmlns="[^"]*"/g, '$1');
         
         const encodedSvg = encodeURIComponent(styledSvg)
             .replace(/'/g, '%27')
             .replace(/"/g, '%22');
         const dataUrl = `data:image/svg+xml,${encodedSvg}`;
-        
+
         previewHtml = `<div class="map-card-preview" style="background-image: url('${dataUrl}');"></div>`;
     } catch (error) {
         console.error(`Failed to load preview for ${map.id}:`, error);
