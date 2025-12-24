@@ -74,7 +74,6 @@ export class MapInteraction {
             if (!this.isDragging) return;
             this.translateX = e.clientX - this.startX;
             this.translateY = e.clientY - this.startY;
-            this.constrainPan();
             this.updateTransform();
         });
 
@@ -88,41 +87,6 @@ export class MapInteraction {
     }
 
     /**
-     * Constrain panning to keep map visible
-     */
-    constrainPan() {
-        if (!this.svgElement) return;
-
-        const containerRect = this.container.getBoundingClientRect();
-        const viewBox = this.svgElement.viewBox.baseVal;
-        
-        // Calculate the actual rendered size of the SVG at current scale
-        const renderedWidth = viewBox.width * this.scale;
-        const renderedHeight = viewBox.height * this.scale;
-
-        // Calculate bounds to allow viewing all parts of the map
-        // If map is smaller than container, keep it centered
-        // If map is larger, allow panning to see all edges
-        if (renderedWidth <= containerRect.width) {
-            // Center horizontally if map fits
-            this.translateX = (containerRect.width - renderedWidth) / 2;
-        } else {
-            // Allow panning to all edges
-            const maxTranslateX = 0;
-            const minTranslateX = containerRect.width - renderedWidth;
-            this.translateX = Math.max(minTranslateX, Math.min(maxTranslateX, this.translateX));
-        }
-
-        if (renderedHeight <= containerRect.height) {
-            // Center vertically if map fits
-            this.translateY = (containerRect.height - renderedHeight) / 2;
-        } else {
-            // Allow panning to all edges
-            const maxTranslateY = 0;
-            const minTranslateY = containerRect.height - renderedHeight;
-            this.translateY = Math.max(minTranslateY, Math.min(maxTranslateY, this.translateY));
-        }
-    }    /**
      * Setup double-click to reset view
      */
     setupReset() {
