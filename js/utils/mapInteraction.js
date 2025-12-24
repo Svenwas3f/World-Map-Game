@@ -92,25 +92,26 @@ export class MapInteraction {
      */
     constrainPan() {
         if (!this.svgElement) return;
-        
+
         const containerRect = this.container.getBoundingClientRect();
-        const svgRect = this.svgElement.getBoundingClientRect();
+        const viewBox = this.svgElement.viewBox.baseVal;
         
-        const scaledWidth = svgRect.width / this.scale;
-        const scaledHeight = svgRect.height / this.scale;
+        // Calculate the actual rendered size of the SVG at current scale
+        const renderedWidth = viewBox.width * this.scale;
+        const renderedHeight = viewBox.height * this.scale;
+
+        // Allow panning but ensure at least some portion remains visible
+        // When zoomed in, allow more freedom to explore all parts
+        const minVisibleRatio = Math.min(0.3, 1 / this.scale); // Less constraint when zoomed in
         
-        // Allow panning but ensure at least 50% of the map remains visible
-        const minVisibleRatio = 0.5;
-        const maxTranslateX = scaledWidth * (1 - minVisibleRatio) * this.scale;
-        const minTranslateX = -scaledWidth * (1 - minVisibleRatio) * this.scale;
-        const maxTranslateY = scaledHeight * (1 - minVisibleRatio) * this.scale;
-        const minTranslateY = -scaledHeight * (1 - minVisibleRatio) * this.scale;
-        
+        const maxTranslateX = renderedWidth * (1 - minVisibleRatio);
+        const minTranslateX = containerRect.width - renderedWidth * minVisibleRatio;
+        const maxTranslateY = renderedHeight * (1 - minVisibleRatio);
+        const minTranslateY = containerRect.height - renderedHeight * minVisibleRatio;
+
         this.translateX = Math.max(minTranslateX, Math.min(maxTranslateX, this.translateX));
         this.translateY = Math.max(minTranslateY, Math.min(maxTranslateY, this.translateY));
-    }
-
-    /**
+    }    /**
      * Setup double-click to reset view
      */
     setupReset() {
