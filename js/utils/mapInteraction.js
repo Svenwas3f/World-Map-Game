@@ -100,15 +100,28 @@ export class MapInteraction {
         const renderedWidth = viewBox.width * this.scale;
         const renderedHeight = viewBox.height * this.scale;
 
-        // Calculate maximum pan ranges
-        // Allow panning as long as some part of the map is visible
-        const maxTranslateX = containerRect.width * 0.5;
-        const minTranslateX = -(renderedWidth - containerRect.width * 0.5);
-        const maxTranslateY = containerRect.height * 0.5;
-        const minTranslateY = -(renderedHeight - containerRect.height * 0.5);
+        // Calculate bounds to allow viewing all parts of the map
+        // If map is smaller than container, keep it centered
+        // If map is larger, allow panning to see all edges
+        if (renderedWidth <= containerRect.width) {
+            // Center horizontally if map fits
+            this.translateX = (containerRect.width - renderedWidth) / 2;
+        } else {
+            // Allow panning to all edges
+            const maxTranslateX = 0;
+            const minTranslateX = containerRect.width - renderedWidth;
+            this.translateX = Math.max(minTranslateX, Math.min(maxTranslateX, this.translateX));
+        }
 
-        this.translateX = Math.max(minTranslateX, Math.min(maxTranslateX, this.translateX));
-        this.translateY = Math.max(minTranslateY, Math.min(maxTranslateY, this.translateY));
+        if (renderedHeight <= containerRect.height) {
+            // Center vertically if map fits
+            this.translateY = (containerRect.height - renderedHeight) / 2;
+        } else {
+            // Allow panning to all edges
+            const maxTranslateY = 0;
+            const minTranslateY = containerRect.height - renderedHeight;
+            this.translateY = Math.max(minTranslateY, Math.min(maxTranslateY, this.translateY));
+        }
     }    /**
      * Setup double-click to reset view
      */
