@@ -46,7 +46,11 @@ async function createMapCard(map) {
         
         // Convert to data URL for background image
         const serializer = new XMLSerializer();
-        const styledSvg = serializer.serializeToString(svgElement);
+        let styledSvg = serializer.serializeToString(svgElement);
+        
+        // Remove duplicate xmlns attributes that might be added during serialization
+        styledSvg = styledSvg.replace(/xmlns="http:\/\/www\.w3\.org\/2000\/svg"\s+xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, 'xmlns="http://www.w3.org/2000/svg"');
+        
         const encodedSvg = encodeURIComponent(styledSvg)
             .replace(/'/g, '%27')
             .replace(/"/g, '%22');
