@@ -10,42 +10,42 @@
     "id": "europe",
     "name": "Europa",
     "file": "europe.svg",
-    "description": "Europäische Länder",
-    "countryCount": 46
+    "description": "Europäische Länder und Territorien",
+    "countryCount": 53
   },
   {
     "id": "africa",
     "name": "Afrika",
     "file": "africa.svg",
-    "description": "Afrikanische Länder",
-    "countryCount": 54
+    "description": "Afrikanische Länder und Territorien",
+    "countryCount": 58
   },
   {
     "id": "asia",
     "name": "Asien",
     "file": "asia.svg",
-    "description": "Asiatische Länder",
-    "countryCount": 47
+    "description": "Asiatische Länder und Territorien",
+    "countryCount": 51
   },
   {
     "id": "north-america",
     "name": "Nordamerika",
     "file": "north-america.svg",
-    "description": "Nordamerikanische Länder und Karibik",
-    "countryCount": 23
+    "description": "Nordamerikanische Länder, Karibik und Territorien",
+    "countryCount": 41
   },
   {
     "id": "south-america",
     "name": "Südamerika",
     "file": "south-america.svg",
-    "description": "Südamerikanische Länder",
-    "countryCount": 12
+    "description": "Südamerikanische Länder und Territorien",
+    "countryCount": 15
   },
   {
     "id": "oceania",
     "name": "Ozeanien",
     "file": "oceania.svg",
-    "description": "Pazifische Inselstaaten und Australien",
-    "countryCount": 14
+    "description": "Länder und Territorien in Ozeanien und dem Pazifik",
+    "countryCount": 28
   }
 ]

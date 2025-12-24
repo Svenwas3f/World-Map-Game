@@ -11,9 +11,9 @@ export class MapInteraction {
         this.isDragging = false;
         this.startX = 0;
         this.startY = 0;
-        
+
         // Zoom limits
-        this.minZoom = 1;
+        this.minZoom = 0.1;
         this.maxZoom = 5;
         this.zoomStep = 0.1;
     }
@@ -28,9 +28,23 @@ export class MapInteraction {
             return;
         }
 
+        this.fitMapToContainer();
         this.setupZoom();
         this.setupPan();
         this.setupReset();
+    }
+
+    /**
+     * Fit the map to the container based on aspect ratio
+     */
+    fitMapToContainer() {
+        if (!this.svgElement) return;
+
+        // Reset to default state - CSS will handle the contain behavior
+        this.scale = 1;
+        this.translateX = 0;
+        this.translateY = 0;
+        this.updateTransform();
     }
 
     /**
@@ -111,17 +125,14 @@ export class MapInteraction {
     updateTransform() {
         if (!this.svgElement) return;
         this.svgElement.style.transform = `translate(${this.translateX}px, ${this.translateY}px) scale(${this.scale})`;
-        this.svgElement.style.transformOrigin = 'center';
+        this.svgElement.style.transformOrigin = 'top left';
     }
 
     /**
      * Reset view to default state
      */
     reset() {
-        this.scale = 1;
-        this.translateX = 0;
-        this.translateY = 0;
-        this.updateTransform();
+        this.fitMapToContainer();
     }
 
     /**
