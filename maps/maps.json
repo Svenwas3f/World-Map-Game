@@ -1,0 +1,58 @@
+[
+  {
+    "id": "world",
+    "name": "Welt",
+    "file": "world.svg",
+    "description": "Alle 196 Länder der Welt",
+    "countryCount": 196,
+    "difficulty": "schwer"
+  },
+  {
+    "id": "europe",
+    "name": "Europa",
+    "file": "europe.svg",
+    "description": "Europäische Länder",
+    "countryCount": 50,
+    "difficulty": "mittel"
+  },
+  {
+    "id": "africa",
+    "name": "Afrika",
+    "file": "africa.svg",
+    "description": "Afrikanische Länder",
+    "countryCount": 54,
+    "difficulty": "schwer"
+  },
+  {
+    "id": "asia",
+    "name": "Asien",
+    "file": "asia.svg",
+    "description": "Asiatische Länder",
+    "countryCount": 48,
+    "difficulty": "schwer"
+  },
+  {
+    "id": "north-america",
+    "name": "Nordamerika",
+    "file": "north-america.svg",
+    "description": "Nordamerikanische Länder und Karibik",
+    "countryCount": 23,
+    "difficulty": "einfach"
+  },
+  {
+    "id": "south-america",
+    "name": "Südamerika",
+    "file": "south-america.svg",
+    "description": "Südamerikanische Länder",
+    "countryCount": 12,
+    "difficulty": "einfach"
+  },
+  {
+    "id": "oceania",
+    "name": "Ozeanien",
+    "file": "oceania.svg",
+    "description": "Pazifische Inselstaaten und Australien",
+    "countryCount": 14,
+    "difficulty": "mittel"
+  }
+]

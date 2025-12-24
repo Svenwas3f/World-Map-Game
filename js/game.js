@@ -13,6 +13,34 @@ class Game {
         this.mapInteraction = null;
         this.mapLoaded = false;
         this.language = 'de'; // Default language
+        this.mapId = this.getMapIdFromURL();
+        this.mapConfig = null;
+    }
+
+    /**
+     * Get map ID from URL parameter
+     */
+    getMapIdFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('map') || 'world';
+    }
+
+    /**
+     * Load map configuration
+     */
+    async loadMapConfig() {
+        try {
+            const response = await fetch('maps/maps.json');
+            const maps = await response.json();
+            this.mapConfig = maps.find(m => m.id === this.mapId) || maps[0];
+            
+            // Update page title
+            document.getElementById('gameTitle').textContent = `${this.mapConfig.name} Lernspiel`;
+            document.title = `${this.mapConfig.name} Länderspiel`;
+        } catch (error) {
+            console.error('Failed to load map config:', error);
+            this.mapConfig = { id: 'world', name: 'Welt', file: 'world.svg' };
+        }
     }
 
     /**
@@ -20,6 +48,7 @@ class Game {
      */
     async init() {
         try {
+            await this.loadMapConfig();
             await this.loadMap();
             this.loadCountriesFromSVG();
             this.gameState = new GameState(this.countryData);
@@ -37,7 +66,8 @@ class Game {
      * Load the SVG map
      */
     async loadMap() {
-        const response = await fetch('world.svg');
+        const mapFile = this.mapConfig ? this.mapConfig.file : 'world.svg';
+        const response = await fetch(`maps/${mapFile}`);
         const svg = await response.text();
         document.getElementById('mapContainer').innerHTML = svg;
         this.mapLoaded = true;
