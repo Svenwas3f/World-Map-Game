@@ -117,6 +117,12 @@ export class UI {
         this.updateStatus('', 'success');
         this.elements.input.style.display = 'none';
         this.elements.button.style.display = 'none';
+        
+        // Hide solution button when game is complete
+        const solutionButton = document.getElementById('solutionButton');
+        if (solutionButton) {
+            solutionButton.style.display = 'none';
+        }
     }
 
     /**
